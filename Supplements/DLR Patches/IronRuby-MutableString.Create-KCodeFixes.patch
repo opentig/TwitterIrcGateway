@@ -1,0 +1,35 @@
+Index: Languages/Ruby/ironruby/Builtins/MatchData.cs
+===================================================================
+--- Languages/Ruby/ironruby/Builtins/MatchData.cs	(revision 22765)
++++ Languages/Ruby/ironruby/Builtins/MatchData.cs	(working copy)
+@@ -69,7 +69,7 @@
+ 
+         public MutableString GetGroupValue(RubyContext/*!*/ context, int index) {
+             var group = Groups[index];
+-            return group.Success ? MutableString.Create(group.Value).TaintBy(this, context) : null;
++            return group.Success ? MutableString.Create(group.Value, context.KCode ?? RubyEncoding.Default).TaintBy(this, context) : null;
+         }
+ 
+         public Group/*!*/ GetExistingGroup(int index) {
+Index: Languages/Ruby/ironruby/Runtime/RubyScope.cs
+===================================================================
+--- Languages/Ruby/ironruby/Runtime/RubyScope.cs	(revision 22765)
++++ Languages/Ruby/ironruby/Runtime/RubyScope.cs	(working copy)
+@@ -509,7 +509,7 @@
+             // we don't need to check index range, Groups indexer returns an unsuccessful group if out of range:
+             Group group;
+             if (_currentMatch != null && (group = _currentMatch.Groups[index]).Success) {
+-                return MutableString.Create(group.Value).TaintBy(_currentMatch.OriginalString);
++                return MutableString.Create(group.Value, RubyContext.KCode ?? RubyEncoding.Default).TaintBy(_currentMatch.OriginalString);
+             }
+ 
+             return null;
+@@ -521,7 +521,7 @@
+                 for (int i = _currentMatch.Groups.Count - 1; i >= 0; i--) {
+                     Group group = _currentMatch.Groups[i];
+                     if (group.Success) {
+-                        return MutableString.Create(group.Value).TaintBy(_currentMatch.OriginalString);
++                        return MutableString.Create(group.Value, RubyContext.KCode ?? RubyEncoding.Default).TaintBy(_currentMatch.OriginalString);
+                     }
+                 }
+             }

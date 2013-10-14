@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Filters xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Items>
+
+    <!-- 捨てる(Drop) -->
+    <FilterItem xsi:type="Drop" Enabled="false">
+      <MatchPattern>はうはう</MatchPattern>
+    </FilterItem>
+
+    <!-- 書き換え(RewriteContent) メッセージタイプは NOTICEかPRIVMSG のみ対応-->
+    <FilterItem xsi:type="RewriteContent" Enabled="true">
+      <MatchPattern>foo</MatchPattern>
+      <ReplacePattern>bar</ReplacePattern>
+      <MessageType>NOTICE</MessageType>
+    </FilterItem>
+
+    <FilterItem xsi:type="RewriteContent" Enabled="true">
+      <MatchPattern>^(Listening|Reading|Bookmarking|Watching YouTube|Listen PodCast|I'm reading) </MatchPattern>
+      <MessageType>NOTICE</MessageType>
+    </FilterItem>
+
+    <!-- 特定のメッセージを特定のチャンネルをリダイレクト(Redirect)-->
+    <FilterItem xsi:type="Redirect" Enabled="true">
+      <!-- リダイレクトするかどうかを決定するメッセージの内容(正規表現) ・必須 -->
+      <MatchPattern>はうはう</MatchPattern>
+      <!-- リダイレクトするかどうかを決定するユーザ名(正規表現) ・任意-->
+      <UserMatchPattern>mayuki</UserMatchPattern>
+      <!-- メッセージを#Twitter(メインチャンネルに送信するかどうか) ・任意・デフォルトはtrue-->
+      <Duplicate>false</Duplicate>
+      <!-- リダイレクト先チャンネル名 -->
+      <ChannelName>#はうはう</ChannelName>
+    </FilterItem>
+
+    <!--FilterItem xsi:type="RewriteContent" Enabled="true">
+      <ReplacePattern />
+      <MatchPattern />
+      <UserMatchPattern />
+      <MessageType>PRIVMSG</MessageType>
+    </FilterItem-->
+
+    <!--FilterItem xsi:type="Drop" Enabled="true">
+      <MatchPattern />
+      <UserMatchPattern />
+    </FilterItem-->
+  </Items>
+</Filters>

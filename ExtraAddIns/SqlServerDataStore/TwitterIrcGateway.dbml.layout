@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="TwitterIrcGateway">
+  <DataContextMoniker Name="/TwitterIrcGatewayDataContext" />
+  <nestedChildShapes>
+    <classShape Id="948ec92f-df85-42d8-aecc-006c3a9d2036" absoluteBounds="0.5, 0.5, 2, 1.9089583333333331">
+      <DataClassMoniker Name="/TwitterIrcGatewayDataContext/User" />
+      <nestedChildShapes>
+        <elementListCompartment Id="341519f0-b6e8-452e-a284-14846bc8b5ba" absoluteBounds="0.51499999999999968, 0.96, 1.9700000000000002, 1.3489583333333333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="ab49372b-c04e-4e15-801b-8e996ef95baf" absoluteBounds="0.75, 3.75, 2, 2.1225000000000005">
+      <DataClassMoniker Name="/TwitterIrcGatewayDataContext/Status" />
+      <nestedChildShapes>
+        <elementListCompartment Id="0e1710e6-c68d-46e2-ad68-cbd7125fb628" absoluteBounds="0.765, 4.21, 1.9700000000000002, 1.5625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(1.625 : 2.40895833333333); (1.625 : 3.75)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/TwitterIrcGatewayDataContext/User/User_Status" />
+      <nodes>
+        <classShapeMoniker Id="948ec92f-df85-42d8-aecc-006c3a9d2036" />
+        <classShapeMoniker Id="ab49372b-c04e-4e15-801b-8e996ef95baf" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="363364fb-251e-4c45-b04b-255cce8ed0a9" absoluteBounds="4.125, 4.375, 2, 1.481875">
+      <DataClassMoniker Name="/TwitterIrcGatewayDataContext/Group" />
+      <nestedChildShapes>
+        <elementListCompartment Id="1c378ec5-2f48-4f9b-a9bc-0da07c2ce248" absoluteBounds="4.14, 4.835, 1.9700000000000002, 0.921875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="c7f9b9cb-c4ae-431e-bb59-8899fc0dcd37" absoluteBounds="4.25, 1.5, 2, 1.481875">
+      <DataClassMoniker Name="/TwitterIrcGatewayDataContext/Timeline" />
+      <nestedChildShapes>
+        <elementListCompartment Id="0c36f14a-3189-4fb8-9aed-9ebee52946ae" absoluteBounds="4.2650000000000006, 1.96, 1.9700000000000002, 0.921875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.5 : 1.95447916666667); (4.25 : 1.95447916666667)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/TwitterIrcGatewayDataContext/User/User_Timeline" />
+      <nodes>
+        <classShapeMoniker Id="948ec92f-df85-42d8-aecc-006c3a9d2036" />
+        <classShapeMoniker Id="c7f9b9cb-c4ae-431e-bb59-8899fc0dcd37" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.65625 : 3.75); (2.65625 : 2.72666666666667); (4.25 : 2.72666666666667)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/TwitterIrcGatewayDataContext/Status/Status_Timeline" />
+      <nodes>
+        <classShapeMoniker Id="ab49372b-c04e-4e15-801b-8e996ef95baf" />
+        <classShapeMoniker Id="c7f9b9cb-c4ae-431e-bb59-8899fc0dcd37" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.1875 : 4.375); (5.1875 : 2.981875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/TwitterIrcGatewayDataContext/Group/Group_Timeline" />
+      <nodes>
+        <classShapeMoniker Id="363364fb-251e-4c45-b04b-255cce8ed0a9" />
+        <classShapeMoniker Id="c7f9b9cb-c4ae-431e-bb59-8899fc0dcd37" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="c36fe4f9-ac72-4256-bc3c-eaa6f1c109fe" absoluteBounds="7.125, 0.625, 2, 1.6954166666666666">
+      <DataClassMoniker Name="/TwitterIrcGatewayDataContext/AuthUser" />
+      <nestedChildShapes>
+        <elementListCompartment Id="09679135-41c5-4ff8-99a2-77b0dc0a7637" absoluteBounds="7.14, 1.085, 1.9700000000000002, 1.1354166666666665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

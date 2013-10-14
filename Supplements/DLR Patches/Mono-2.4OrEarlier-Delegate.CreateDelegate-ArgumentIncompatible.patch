@@ -1,0 +1,41 @@
+Index: Src/Languages/IronPython/IronPython/Runtime/Binding/ContextArgBuilder.cs
+===================================================================
+--- Src/Languages/IronPython/IronPython/Runtime/Binding/ContextArgBuilder.cs	(revision 22765)
++++ Src/Languages/IronPython/IronPython/Runtime/Binding/ContextArgBuilder.cs	(working copy)
+@@ -27,7 +27,7 @@
+     /// ArgBuilder which provides the CodeContext parameter to a method.
+     /// </summary>
+     public sealed class ContextArgBuilder : ArgBuilder {
+-        private static Func<object[], object> _readFunc = (Func<object[], object>)Delegate.CreateDelegate(typeof(Func<object[], object>), 0, typeof(ArgBuilder).GetMethod("ArgumentRead"));
++        private static Func<object[], object> _readFunc = (Func<object[], object>)Delegate.CreateDelegate(typeof(Func<object[], object>), new object[] { 0 }, typeof(ArgBuilder).GetMethod("ArgumentRead"));
+         public ContextArgBuilder(ParameterInfo info) 
+             : base(info){
+         }
+Index: Src/Runtime/Microsoft.Scripting/Actions/Calls/ArgBuilder.cs
+===================================================================
+--- Src/Runtime/Microsoft.Scripting/Actions/Calls/ArgBuilder.cs	(revision 22765)
++++ Src/Runtime/Microsoft.Scripting/Actions/Calls/ArgBuilder.cs	(working copy)
+@@ -66,8 +66,8 @@
+         /// 
+         /// This function is referenced via reflection and if renamed needs CALLERS UPDATED.
+         /// </summary>
+-        public static object ArgumentRead(object value, object[] args) {
+-            return args[(int)value];
++        public static object ArgumentRead(object[] value, object[] args) {
++            return args[(int)(value[0])];
+         }
+ 
+         /// <summary>
+Index: Src/Runtime/Microsoft.Scripting/Actions/Calls/SimpleArgBuilder.cs
+===================================================================
+--- Src/Runtime/Microsoft.Scripting/Actions/Calls/SimpleArgBuilder.cs	(revision 22765)
++++ Src/Runtime/Microsoft.Scripting/Actions/Calls/SimpleArgBuilder.cs	(working copy)
+@@ -109,7 +109,7 @@
+ 
+             return (Func<object[], object>)Delegate.CreateDelegate(
+                 typeof(Func<object[], object>), 
+-                _index + 1, 
++                new object[] { _index + 1 }, 
+                 typeof(ArgBuilder).GetMethod("ArgumentRead"));
+         }
+ 
