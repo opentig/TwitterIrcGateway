@@ -40,8 +40,8 @@ namespace Misuzilla.Applications.TwitterIrcGateway.AddIns
     
     public class RevealOnewayFollow : AddInBase
     {
-        private List<Int32> _followerIds;
-        internal List<Int32> FollowerIds { get { return _followerIds; } }
+        private List<Int64> _followerIds;
+        internal List<Int64> FollowerIds { get { return _followerIds; } }
 
         public RevealOnewayFollowConfig Config { get; private set; }
 
@@ -59,7 +59,7 @@ namespace Misuzilla.Applications.TwitterIrcGateway.AddIns
         {
             if (Config.Enable && (_followerIds != null || UpdateFollowerIds()))
             {
-                Int32 uid = e.Status.User.Id;
+                Int64 uid = e.Status.User.Id;
                 if (uid == 0)
                 {
                     // Follower から探してみる
@@ -85,7 +85,7 @@ namespace Misuzilla.Applications.TwitterIrcGateway.AddIns
             var page = 10;
             return Session.RunCheck(() =>
                                  {
-                                    var followerIds = new List<Int32>();
+                                    var followerIds = new List<Int64>();
                                     while (cursor != 0 && page > 0)
                                     {
                                         String responseBody = Session.TwitterService.GETv1_1("/followers/ids.json", "/followers/ids");
@@ -108,7 +108,7 @@ namespace Misuzilla.Applications.TwitterIrcGateway.AddIns
     internal class FollowersIds
     {
         [JsonProperty("ids")]
-        public List<Int32> Ids { get; set; }
+        public List<Int64> Ids { get; set; }
 
         [JsonProperty("next_cursor")]
         public Int64 NextCursor { get; set; }

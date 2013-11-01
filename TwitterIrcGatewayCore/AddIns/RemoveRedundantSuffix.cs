@@ -9,7 +9,7 @@ namespace Misuzilla.Applications.TwitterIrcGateway.AddIns
     class RemoveRedundantSuffix : AddInBase
     {
         private static readonly Regex _suffixMatchRE = new Regex(@"^(\s*(\＜.{2,}\＞|\<.{2,}\>|\(.{2,}\)|\《.{2,}\》|\【.{2,}\】|\[.{2,}\]|\*.{2,}\*|lang:ja)+)$");
-        private Dictionary<Int32, LinkedList<String>> _lastStatusFromFriends;
+        private Dictionary<Int64, LinkedList<String>> _lastStatusFromFriends;
         
         public override void Initialize()
         {
@@ -17,14 +17,14 @@ namespace Misuzilla.Applications.TwitterIrcGateway.AddIns
             CurrentSession.ConfigChanged += new EventHandler<EventArgs>(Session_ConfigChanged);
 
             if (CurrentSession.Config.EnableRemoveRedundantSuffix)
-                _lastStatusFromFriends = new Dictionary<Int32, LinkedList<String>>();
+                _lastStatusFromFriends = new Dictionary<Int64, LinkedList<String>>();
         }
 
         void Session_ConfigChanged(object sender, EventArgs e)
         {
             if (_lastStatusFromFriends == null && CurrentSession.Config.EnableRemoveRedundantSuffix)
             {
-                _lastStatusFromFriends = new Dictionary<Int32, LinkedList<String>>();
+                _lastStatusFromFriends = new Dictionary<Int64, LinkedList<String>>();
             }
             else if (!CurrentSession.Config.EnableRemoveRedundantSuffix)
             {

@@ -171,7 +171,7 @@ namespace Misuzilla.Applications.TwitterIrcGateway
     public class User
     {
         [JsonProperty("id")]
-        public Int32 Id;
+        public Int64 Id;
         [JsonProperty("name")]
         public String Name;
         [JsonProperty("screen_name")]

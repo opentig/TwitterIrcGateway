@@ -15,7 +15,7 @@ namespace Misuzilla.Applications.TwitterIrcGateway
     public class TwitterIdentity : MarshalByRefObject, IIdentity
     {
         public String ScreenName { get; set; }
-        public Int32 UserId { get; set; }
+        public Int64 UserId { get; set; }
         public String Token { get; set; }
         public String TokenSecret { get; set; }
         
