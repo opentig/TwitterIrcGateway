@@ -82,7 +82,7 @@ namespace Misuzilla.Applications.TwitterIrcGateway.AddIns.UserStream
                 //                                                CurrentSession.Connections[0].UserInfo.Password);
                 //_webRequest.PreAuthenticate = true;
                  _webRequest = CurrentSession.TwitterService.OAuthClient.CreateRequest(
-                                                                        new Uri("http://betastream.twitter.com/2b/user.json"),
+                                                                        new Uri("https://userstream.twitter.com/1.1/user.json"),
                                                                         TwitterOAuth.HttpMethod.GET);
                  _webRequest.ServicePoint.ConnectionLimit = 1000;
                  _webRequest.Timeout = 30 * 1000;
