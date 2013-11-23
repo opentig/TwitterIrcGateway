@@ -131,7 +131,7 @@ namespace Misuzilla.Applications.TwitterIrcGateway
                                                Token = returnValues["oauth_token"],
                                                TokenSecret = returnValues["oauth_token_secret"],
                                                ScreenName = returnValues["screen_name"],
-                                               UserId = Int32.Parse(returnValues["user_id"])
+                                               UserId = Int64.Parse(returnValues["user_id"])
                                            };
             return identity;
         }
@@ -156,7 +156,7 @@ namespace Misuzilla.Applications.TwitterIrcGateway
                 Token = returnValues["oauth_token"],
                 TokenSecret = returnValues["oauth_token_secret"],
                 ScreenName = returnValues["screen_name"],
-                UserId = Int32.Parse(returnValues["user_id"])
+                UserId = Int64.Parse(returnValues["user_id"])
             };
             return identity;
         }

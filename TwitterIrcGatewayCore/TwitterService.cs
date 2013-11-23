@@ -378,7 +378,7 @@ namespace Misuzilla.Applications.TwitterIrcGateway
         /// </summary>
         /// <exception cref="WebException"></exception>
         /// <exception cref="TwitterServiceException"></exception>
-        public User GetUserById(Int32 id)
+        public User GetUserById(Int64 id)
         {
             return ExecuteRequest<User>(() =>
             {
@@ -974,8 +974,8 @@ namespace Misuzilla.Applications.TwitterIrcGateway
         /// <returns></returns>
         private String GetUserId(String screenName)
         {
-            Int32 id;
-            if (Int32.TryParse(screenName, out id))
+            Int64 id;
+            if (Int64.TryParse(screenName, out id))
             {
                 return GetUser(screenName).Id.ToString();
             }

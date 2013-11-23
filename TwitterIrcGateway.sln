@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExtraAddIns", "ExtraAddIns", "{8556500F-82A4-4F3B-9559-F68744C12840}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterIrcGateway", "TwitterIrcGateway\TwitterIrcGateway.csproj", "{1D1391F6-74ED-4FDF-8C27-0BD421D0FF4D}"
@@ -20,8 +22,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CamouflageClient", "ExtraAddIns\CamouflageClient\CamouflageClient.csproj", "{92E20BBD-CC17-4C37-9BA2-54B4B4A268C9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterIrcGatewayService", "TwitterIrcGatewayService\TwitterIrcGatewayService.csproj", "{BD0A16C9-F297-4A1C-A08D-BBC18D354553}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlServerDataStore", "ExtraAddIns\SqlServerDataStore\SqlServerDataStore.csproj", "{03FC30B6-9603-4A49-81E0-5474D7AE160A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserStream", "ExtraAddIns\UserStream\UserStream.csproj", "{BB1F6F98-21DA-4D9A-B162-6488B73E0879}"
 EndProject
@@ -174,22 +174,6 @@ Global
 		{BD0A16C9-F297-4A1C-A08D-BBC18D354553}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD0A16C9-F297-4A1C-A08D-BBC18D354553}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BD0A16C9-F297-4A1C-A08D-BBC18D354553}.Release|x86.ActiveCfg = Release|Any CPU
-		{03FC30B6-9603-4A49-81E0-5474D7AE160A}.Debug|Any CPU.ActiveCfg = Hosting Debug|Any CPU
-		{03FC30B6-9603-4A49-81E0-5474D7AE160A}.Debug|Any CPU.Build.0 = Hosting Debug|Any CPU
-		{03FC30B6-9603-4A49-81E0-5474D7AE160A}.Debug|x86.ActiveCfg = Hosting Debug|x86
-		{03FC30B6-9603-4A49-81E0-5474D7AE160A}.Debug|x86.Build.0 = Hosting Debug|x86
-		{03FC30B6-9603-4A49-81E0-5474D7AE160A}.Hosting Debug|Any CPU.ActiveCfg = Hosting Debug|Any CPU
-		{03FC30B6-9603-4A49-81E0-5474D7AE160A}.Hosting Debug|Any CPU.Build.0 = Hosting Debug|Any CPU
-		{03FC30B6-9603-4A49-81E0-5474D7AE160A}.Hosting Debug|x86.ActiveCfg = Hosting Debug|x86
-		{03FC30B6-9603-4A49-81E0-5474D7AE160A}.Hosting Debug|x86.Build.0 = Hosting Debug|x86
-		{03FC30B6-9603-4A49-81E0-5474D7AE160A}.Hosting Release|Any CPU.ActiveCfg = Hosting Release|Any CPU
-		{03FC30B6-9603-4A49-81E0-5474D7AE160A}.Hosting Release|Any CPU.Build.0 = Hosting Release|Any CPU
-		{03FC30B6-9603-4A49-81E0-5474D7AE160A}.Hosting Release|x86.ActiveCfg = Hosting Release|x86
-		{03FC30B6-9603-4A49-81E0-5474D7AE160A}.Hosting Release|x86.Build.0 = Hosting Release|x86
-		{03FC30B6-9603-4A49-81E0-5474D7AE160A}.Release|Any CPU.ActiveCfg = Hosting Release|Any CPU
-		{03FC30B6-9603-4A49-81E0-5474D7AE160A}.Release|Any CPU.Build.0 = Hosting Release|Any CPU
-		{03FC30B6-9603-4A49-81E0-5474D7AE160A}.Release|x86.ActiveCfg = Hosting Release|x86
-		{03FC30B6-9603-4A49-81E0-5474D7AE160A}.Release|x86.Build.0 = Hosting Release|x86
 		{BB1F6F98-21DA-4D9A-B162-6488B73E0879}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BB1F6F98-21DA-4D9A-B162-6488B73E0879}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB1F6F98-21DA-4D9A-B162-6488B73E0879}.Debug|x86.ActiveCfg = Debug|x86
@@ -230,7 +214,6 @@ Global
 		{115D5E5F-D93C-4E92-BFF0-BF06DEDEB35A} = {8556500F-82A4-4F3B-9559-F68744C12840}
 		{2155CDFA-F001-4537-BD68-2C2CAA283329} = {8556500F-82A4-4F3B-9559-F68744C12840}
 		{92E20BBD-CC17-4C37-9BA2-54B4B4A268C9} = {8556500F-82A4-4F3B-9559-F68744C12840}
-		{03FC30B6-9603-4A49-81E0-5474D7AE160A} = {8556500F-82A4-4F3B-9559-F68744C12840}
 		{BB1F6F98-21DA-4D9A-B162-6488B73E0879} = {8556500F-82A4-4F3B-9559-F68744C12840}
 		{900E52E8-6BE8-4A7C-89F9-C025A7110B53} = {8556500F-82A4-4F3B-9559-F68744C12840}
 	EndGlobalSection

@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Net.Sockets;
@@ -39,9 +39,9 @@ namespace Misuzilla.Applications.TwitterIrcGateway
             IPAddress ipAddr = _settings.LocalOnly ? IPAddress.Loopback : IPAddress.Any;
 
             ContextMenu ctxMenu = new ContextMenu();
-            ctxMenu.MenuItems.Add(new MenuItem("I—¹(&X)", ContextMenuItemExit));
+            ctxMenu.MenuItems.Add(new MenuItem("çµ‚äº†(&X)", ContextMenuItemExit));
             _notifyIcon = new NotifyIcon();
-            _notifyIcon.Text = String.Format("{0} (IP: {1} / ƒ|[ƒg {2})", Name, ipAddr, port);
+            _notifyIcon.Text = String.Format("{0} (IP: {1} / ãƒãƒ¼ãƒˆ {2})", Name, ipAddr, port);
             _notifyIcon.ContextMenu = ctxMenu;
             _notifyIcon.Icon = Resource.ApplicationIcon;
 
@@ -73,7 +73,7 @@ namespace Misuzilla.Applications.TwitterIrcGateway
             try
             {
                 _server.Encoding = (String.Compare(_settings.Charset, "UTF-8", true) == 0)
-                    ? new UTF8Encoding(false) // BOM ‚È‚µ
+                    ? new UTF8Encoding(false) // BOM ãªã—
                     : Encoding.GetEncoding(_settings.Charset);
             }
             catch (ArgumentException)
@@ -86,7 +86,7 @@ namespace Misuzilla.Applications.TwitterIrcGateway
             {
                 _server.Start(ipAddr, port);
                 _notifyIcon.Visible = true;
-                _notifyIcon.ShowBalloonTip(1000 * 10, Name, String.Format("IRCƒT[ƒo‚ªƒ|[ƒg {0} ‚ÅŠJn‚³‚ê‚Ü‚µ‚½B", port), ToolTipIcon.Info);
+                _notifyIcon.ShowBalloonTip(1000 * 10, Name, String.Format("IRCã‚µãƒ¼ãƒãŒãƒãƒ¼ãƒˆ {0} ã§é–‹å§‹ã•ã‚Œã¾ã—ãŸã€‚", port), ToolTipIcon.Info);
             }
             catch (SocketException se)
             {
@@ -105,7 +105,7 @@ namespace Misuzilla.Applications.TwitterIrcGateway
 
         void _server_ConnectionAttached(object sender, ConnectionAttachEventArgs e)
         {
-            _notifyIcon.ShowBalloonTip(1000 * 10, Name, String.Format("ƒ†[ƒU {0} ‚ªƒT[ƒo‚ÉÚ‘±‚µ‚Ü‚µ‚½B", ((Connection)(e.Connection)).TwitterUser.ScreenName), ToolTipIcon.Info);
+            _notifyIcon.ShowBalloonTip(1000 * 10, Name, String.Format("ãƒ¦ãƒ¼ã‚¶ {0} ãŒã‚µãƒ¼ãƒã«æ¥ç¶šã—ã¾ã—ãŸã€‚", ((Connection)(e.Connection)).TwitterUser.ScreenName), ToolTipIcon.Info);
         }
 
 
@@ -115,16 +115,16 @@ namespace Misuzilla.Applications.TwitterIrcGateway
         }
 
         /// <summary>
-        /// ƒnƒ“ƒhƒ‹‚³‚ê‚Ä‚¢‚È‚¢—áŠO‚ğƒLƒƒƒbƒ`‚µ‚ÄAƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğ•Û‘¶‚µ‚ÄƒfƒoƒbƒO‚É–ğ—§‚Ä‚é
+        /// ãƒãƒ³ãƒ‰ãƒ«ã•ã‚Œã¦ã„ãªã„ä¾‹å¤–ã‚’ã‚­ãƒ£ãƒƒãƒã—ã¦ã€ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’ä¿å­˜ã—ã¦ãƒ‡ãƒãƒƒã‚°ã«å½¹ç«‹ã¦ã‚‹
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            Exception ex = e.ExceptionObject as Exception; // Exception ˆÈŠO‚ª”ò‚ñ‚Å‚­‚é‚Ì‚Í’´“Áê‚Èê‡‚Ì‚İB
+            Exception ex = e.ExceptionObject as Exception; // Exception ä»¥å¤–ãŒé£›ã‚“ã§ãã‚‹ã®ã¯è¶…ç‰¹æ®Šãªå ´åˆã®ã¿ã€‚
 
             if (MessageBox.Show(
-                String.Format("ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌÀs’†‚É—\Šú‚µ‚È‚¢d‘å‚ÈƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B\n\nƒGƒ‰[“à—e:\n{0}\n\nƒGƒ‰[î•ñ‚ğƒtƒ@ƒCƒ‹‚É•Û‘¶‚µA•ñ‚µ‚Ä‚¢‚½‚¾‚­‚±‚Æ‚Å•s‹ï‡‚Ì‰ğŒˆ‚É–ğ—§‚Â‰Â”\«‚ª‚ ‚è‚Ü‚·BƒGƒ‰[î•ñ‚ğƒtƒ@ƒCƒ‹‚É•Û‘¶‚µ‚Ü‚·‚©?",
+                String.Format("ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®å®Ÿè¡Œä¸­ã«äºˆæœŸã—ãªã„é‡å¤§ãªã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸã€‚\n\nã‚¨ãƒ©ãƒ¼å†…å®¹:\n{0}\n\nã‚¨ãƒ©ãƒ¼æƒ…å ±ã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã«ä¿å­˜ã—ã€å ±å‘Šã—ã¦ã„ãŸã ãã“ã¨ã§ä¸å…·åˆã®è§£æ±ºã«å½¹ç«‹ã¤å¯èƒ½æ€§ãŒã‚ã‚Šã¾ã™ã€‚ã‚¨ãƒ©ãƒ¼æƒ…å ±ã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã«ä¿å­˜ã—ã¾ã™ã‹?",
                 ((Exception)(e.ExceptionObject)).Message)
                 , Application.ProductName
                 , MessageBoxButtons.YesNo
@@ -135,7 +135,7 @@ namespace Misuzilla.Applications.TwitterIrcGateway
                 using (SaveFileDialog saveFileDialog = new SaveFileDialog())
                 {
                     saveFileDialog.DefaultExt = "txt";
-                    saveFileDialog.Filter = "ƒeƒLƒXƒgƒtƒ@ƒCƒ‹|*.txt";
+                    saveFileDialog.Filter = "ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«|*.txt";
                     saveFileDialog.FileName = String.Format("twitterircgateway_stacktrace_{0:yyyyMMdd_HHmmss}.txt", DateTime.Now);
                     if (saveFileDialog.ShowDialog() == DialogResult.OK)
                     {
@@ -144,19 +144,19 @@ namespace Misuzilla.Applications.TwitterIrcGateway
                         {
                             Assembly asm = Assembly.GetExecutingAssembly();
 
-                            sw.WriteLine("”­¶: {0}", DateTime.Now);
+                            sw.WriteLine("ç™ºç”Ÿæ™‚åˆ»: {0}", DateTime.Now);
                             sw.WriteLine();
                             sw.WriteLine("TwitterIrcGateway:");
                             sw.WriteLine("========================");
-                            sw.WriteLine("ƒo[ƒWƒ‡ƒ“: {0}", Assembly.GetExecutingAssembly().GetName().Version);
-                            sw.WriteLine("ƒAƒZƒ“ƒuƒŠ: {0}", Assembly.GetExecutingAssembly().FullName);
+                            sw.WriteLine("ãƒãƒ¼ã‚¸ãƒ§ãƒ³: {0}", Assembly.GetExecutingAssembly().GetName().Version);
+                            sw.WriteLine("ã‚¢ã‚»ãƒ³ãƒ–ãƒª: {0}", Assembly.GetExecutingAssembly().FullName);
                             sw.WriteLine();
-                            sw.WriteLine("ŠÂ‹«î•ñ:");
+                            sw.WriteLine("ç’°å¢ƒæƒ…å ±:");
                             sw.WriteLine("========================");
-                            sw.WriteLine("ƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€: {0}", Environment.OSVersion);
+                            sw.WriteLine("ã‚ªãƒšãƒ¬ãƒ¼ãƒ†ã‚£ãƒ³ã‚°ã‚·ã‚¹ãƒ†ãƒ : {0}", Environment.OSVersion);
                             sw.WriteLine("Microsoft .NET Framework: {0}", Environment.Version);
                             sw.WriteLine(); 
-                            sw.WriteLine("ƒnƒ“ƒhƒ‹‚³‚ê‚Ä‚¢‚È‚¢—áŠO: ");
+                            sw.WriteLine("ãƒãƒ³ãƒ‰ãƒ«ã•ã‚Œã¦ã„ãªã„ä¾‹å¤–: ");
                             sw.WriteLine("=========================");
                             sw.WriteLine(ex.ToString());
                         }

@@ -282,7 +282,7 @@ namespace Misuzilla.Applications.TwitterIrcGateway.AddIns.TrackStream
         {
             return new User()
             {
-                Id = (Int32)this.id,
+                Id = (Int64)this.id,
                 Protected = this.Protected,
                 ProfileImageUrl = this.profile_image_url,
                 ScreenName = this.screen_name

@@ -1,4 +1,4 @@
-// $Id: Converter.cs 31 2007-04-14 01:55:50Z mayuki $
+ï»¿// $Id: Converter.cs 31 2007-04-14 01:55:50Z mayuki $
 using System;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -18,118 +18,118 @@ namespace Misuzilla.Text.JapaneseStringUtilities
 		static Converter()
 		{
 			_tableZenkakuToHankaku = new Hashtable();
-			_tableZenkakuToHankaku['B'] = "¡";
-			_tableZenkakuToHankaku['u'] = "¢";
-			_tableZenkakuToHankaku['v'] = "£";
-			_tableZenkakuToHankaku['A'] = "¤";
-			_tableZenkakuToHankaku['E'] = "¥";
-			_tableZenkakuToHankaku['ƒ’'] = "¦";
-			_tableZenkakuToHankaku['ƒ@'] = "§";
-			_tableZenkakuToHankaku['ƒB'] = "¨";
-			_tableZenkakuToHankaku['ƒD'] = "©";
-			_tableZenkakuToHankaku['ƒF'] = "ª";
-			_tableZenkakuToHankaku['ƒH'] = "«";
-			_tableZenkakuToHankaku['ƒƒ'] = "¬";
-			_tableZenkakuToHankaku['ƒ…'] = "­";
-			_tableZenkakuToHankaku['ƒ‡'] = "®";
-			_tableZenkakuToHankaku['ƒb'] = "¯";
-			_tableZenkakuToHankaku['['] = "°";
-			_tableZenkakuToHankaku['ƒA'] = "±";
-			_tableZenkakuToHankaku['ƒC'] = "²";
-			_tableZenkakuToHankaku['ƒE'] = "³";
-			_tableZenkakuToHankaku['ƒG'] = "´";
-			_tableZenkakuToHankaku['ƒI'] = "µ";
-			_tableZenkakuToHankaku['ƒJ'] = "¶";
-			_tableZenkakuToHankaku['ƒL'] = "·";
-			_tableZenkakuToHankaku['ƒN'] = "¸";
-			_tableZenkakuToHankaku['ƒP'] = "¹";
-			_tableZenkakuToHankaku['ƒR'] = "º";
-			_tableZenkakuToHankaku['ƒT'] = "»";
-			_tableZenkakuToHankaku['ƒV'] = "¼";
-			_tableZenkakuToHankaku['ƒX'] = "½";
-			_tableZenkakuToHankaku['ƒZ'] = "¾";
-			_tableZenkakuToHankaku['ƒ\'] = "¿";
-			_tableZenkakuToHankaku['ƒ^'] = "À";
-			_tableZenkakuToHankaku['ƒ`'] = "Á";
-			_tableZenkakuToHankaku['ƒc'] = "Â";
-			_tableZenkakuToHankaku['ƒe'] = "Ã";
-			_tableZenkakuToHankaku['ƒg'] = "Ä";
-			_tableZenkakuToHankaku['ƒi'] = "Å";
-			_tableZenkakuToHankaku['ƒj'] = "Æ";
-			_tableZenkakuToHankaku['ƒk'] = "Ç";
-			_tableZenkakuToHankaku['ƒl'] = "È";
-			_tableZenkakuToHankaku['ƒm'] = "É";
-			_tableZenkakuToHankaku['ƒn'] = "Ê";
-			_tableZenkakuToHankaku['ƒq'] = "Ë";
-			_tableZenkakuToHankaku['ƒt'] = "Ì";
-			_tableZenkakuToHankaku['ƒw'] = "Í";
-			_tableZenkakuToHankaku['ƒz'] = "Î";
-			_tableZenkakuToHankaku['ƒ}'] = "Ï";
-			_tableZenkakuToHankaku['ƒ~'] = "Ğ";
-			_tableZenkakuToHankaku['ƒ€'] = "Ñ";
-			_tableZenkakuToHankaku['ƒ'] = "Ò";
-			_tableZenkakuToHankaku['ƒ‚'] = "Ó";
-			_tableZenkakuToHankaku['ƒ„'] = "Ô";
-			_tableZenkakuToHankaku['ƒ†'] = "Õ";
-			_tableZenkakuToHankaku['ƒˆ'] = "Ö";
-			_tableZenkakuToHankaku['ƒ'] = "Ü";
-			_tableZenkakuToHankaku['ƒ’'] = "¦";
-			_tableZenkakuToHankaku['ƒ“'] = "İ";
-			_tableZenkakuToHankaku['ƒ”'] = "³Ş";
-			_tableZenkakuToHankaku['J'] = "Ş";
-			_tableZenkakuToHankaku['K'] = "ß";
-			_tableZenkakuToHankaku['ƒK'] = "¶Ş";
-			_tableZenkakuToHankaku['ƒM'] = "·Ş";
-			_tableZenkakuToHankaku['ƒO'] = "¸Ş";
-			_tableZenkakuToHankaku['ƒQ'] = "¹Ş";
-			_tableZenkakuToHankaku['ƒS'] = "ºŞ";
-			_tableZenkakuToHankaku['ƒU'] = "»Ş";
-			_tableZenkakuToHankaku['ƒW'] = "¼Ş";
-			_tableZenkakuToHankaku['ƒY'] = "½Ş";
-			_tableZenkakuToHankaku['ƒ['] = "¾Ş";
-			_tableZenkakuToHankaku['ƒ]'] = "¿Ş";
-			_tableZenkakuToHankaku['ƒ_'] = "ÀŞ";
-			_tableZenkakuToHankaku['ƒa'] = "ÁŞ";
-			_tableZenkakuToHankaku['ƒd'] = "ÂŞ";
-			_tableZenkakuToHankaku['ƒf'] = "ÃŞ";
-			_tableZenkakuToHankaku['ƒh'] = "ÄŞ";
-			_tableZenkakuToHankaku['ƒo'] = "ÊŞ";
-			_tableZenkakuToHankaku['ƒr'] = "ËŞ";
-			_tableZenkakuToHankaku['ƒu'] = "ÌŞ";
-			_tableZenkakuToHankaku['ƒx'] = "ÍŞ";
-			_tableZenkakuToHankaku['ƒ{'] = "ÎŞ";
-			_tableZenkakuToHankaku['ƒp'] = "Êß";
-			_tableZenkakuToHankaku['ƒs'] = "Ëß";
-			_tableZenkakuToHankaku['ƒv'] = "Ìß";
-			_tableZenkakuToHankaku['ƒy'] = "Íß";
-			_tableZenkakuToHankaku['ƒ|'] = "Îß";
+			_tableZenkakuToHankaku['ã€‚'] = "ï½¡";
+			_tableZenkakuToHankaku['ã€Œ'] = "ï½¢";
+			_tableZenkakuToHankaku['ã€'] = "ï½£";
+			_tableZenkakuToHankaku['ã€'] = "ï½¤";
+			_tableZenkakuToHankaku['ãƒ»'] = "ï½¥";
+			_tableZenkakuToHankaku['ãƒ²'] = "ï½¦";
+			_tableZenkakuToHankaku['ã‚¡'] = "ï½§";
+			_tableZenkakuToHankaku['ã‚£'] = "ï½¨";
+			_tableZenkakuToHankaku['ã‚¥'] = "ï½©";
+			_tableZenkakuToHankaku['ã‚§'] = "ï½ª";
+			_tableZenkakuToHankaku['ã‚©'] = "ï½«";
+			_tableZenkakuToHankaku['ãƒ£'] = "ï½¬";
+			_tableZenkakuToHankaku['ãƒ¥'] = "ï½­";
+			_tableZenkakuToHankaku['ãƒ§'] = "ï½®";
+			_tableZenkakuToHankaku['ãƒƒ'] = "ï½¯";
+			_tableZenkakuToHankaku['ãƒ¼'] = "ï½°";
+			_tableZenkakuToHankaku['ã‚¢'] = "ï½±";
+			_tableZenkakuToHankaku['ã‚¤'] = "ï½²";
+			_tableZenkakuToHankaku['ã‚¦'] = "ï½³";
+			_tableZenkakuToHankaku['ã‚¨'] = "ï½´";
+			_tableZenkakuToHankaku['ã‚ª'] = "ï½µ";
+			_tableZenkakuToHankaku['ã‚«'] = "ï½¶";
+			_tableZenkakuToHankaku['ã‚­'] = "ï½·";
+			_tableZenkakuToHankaku['ã‚¯'] = "ï½¸";
+			_tableZenkakuToHankaku['ã‚±'] = "ï½¹";
+			_tableZenkakuToHankaku['ã‚³'] = "ï½º";
+			_tableZenkakuToHankaku['ã‚µ'] = "ï½»";
+			_tableZenkakuToHankaku['ã‚·'] = "ï½¼";
+			_tableZenkakuToHankaku['ã‚¹'] = "ï½½";
+			_tableZenkakuToHankaku['ã‚»'] = "ï½¾";
+			_tableZenkakuToHankaku['ã‚½'] = "ï½¿";
+			_tableZenkakuToHankaku['ã‚¿'] = "ï¾€";
+			_tableZenkakuToHankaku['ãƒ'] = "ï¾";
+			_tableZenkakuToHankaku['ãƒ„'] = "ï¾‚";
+			_tableZenkakuToHankaku['ãƒ†'] = "ï¾ƒ";
+			_tableZenkakuToHankaku['ãƒˆ'] = "ï¾„";
+			_tableZenkakuToHankaku['ãƒŠ'] = "ï¾…";
+			_tableZenkakuToHankaku['ãƒ‹'] = "ï¾†";
+			_tableZenkakuToHankaku['ãƒŒ'] = "ï¾‡";
+			_tableZenkakuToHankaku['ãƒ'] = "ï¾ˆ";
+			_tableZenkakuToHankaku['ãƒ'] = "ï¾‰";
+			_tableZenkakuToHankaku['ãƒ'] = "ï¾Š";
+			_tableZenkakuToHankaku['ãƒ’'] = "ï¾‹";
+			_tableZenkakuToHankaku['ãƒ•'] = "ï¾Œ";
+			_tableZenkakuToHankaku['ãƒ˜'] = "ï¾";
+			_tableZenkakuToHankaku['ãƒ›'] = "ï¾";
+			_tableZenkakuToHankaku['ãƒ'] = "ï¾";
+			_tableZenkakuToHankaku['ãƒŸ'] = "ï¾";
+			_tableZenkakuToHankaku['ãƒ '] = "ï¾‘";
+			_tableZenkakuToHankaku['ãƒ¡'] = "ï¾’";
+			_tableZenkakuToHankaku['ãƒ¢'] = "ï¾“";
+			_tableZenkakuToHankaku['ãƒ¤'] = "ï¾”";
+			_tableZenkakuToHankaku['ãƒ¦'] = "ï¾•";
+			_tableZenkakuToHankaku['ãƒ¨'] = "ï¾–";
+			_tableZenkakuToHankaku['ãƒ¯'] = "ï¾œ";
+			_tableZenkakuToHankaku['ãƒ²'] = "ï½¦";
+			_tableZenkakuToHankaku['ãƒ³'] = "ï¾";
+			_tableZenkakuToHankaku['ãƒ´'] = "ï½³ï¾";
+			_tableZenkakuToHankaku['ã‚›'] = "ï¾";
+			_tableZenkakuToHankaku['ã‚œ'] = "ï¾Ÿ";
+			_tableZenkakuToHankaku['ã‚¬'] = "ï½¶ï¾";
+			_tableZenkakuToHankaku['ã‚®'] = "ï½·ï¾";
+			_tableZenkakuToHankaku['ã‚°'] = "ï½¸ï¾";
+			_tableZenkakuToHankaku['ã‚²'] = "ï½¹ï¾";
+			_tableZenkakuToHankaku['ã‚´'] = "ï½ºï¾";
+			_tableZenkakuToHankaku['ã‚¶'] = "ï½»ï¾";
+			_tableZenkakuToHankaku['ã‚¸'] = "ï½¼ï¾";
+			_tableZenkakuToHankaku['ã‚º'] = "ï½½ï¾";
+			_tableZenkakuToHankaku['ã‚¼'] = "ï½¾ï¾";
+			_tableZenkakuToHankaku['ã‚¾'] = "ï½¿ï¾";
+			_tableZenkakuToHankaku['ãƒ€'] = "ï¾€ï¾";
+			_tableZenkakuToHankaku['ãƒ‚'] = "ï¾ï¾";
+			_tableZenkakuToHankaku['ãƒ…'] = "ï¾‚ï¾";
+			_tableZenkakuToHankaku['ãƒ‡'] = "ï¾ƒï¾";
+			_tableZenkakuToHankaku['ãƒ‰'] = "ï¾„ï¾";
+			_tableZenkakuToHankaku['ãƒ'] = "ï¾Šï¾";
+			_tableZenkakuToHankaku['ãƒ“'] = "ï¾‹ï¾";
+			_tableZenkakuToHankaku['ãƒ–'] = "ï¾Œï¾";
+			_tableZenkakuToHankaku['ãƒ™'] = "ï¾ï¾";
+			_tableZenkakuToHankaku['ãƒœ'] = "ï¾ï¾";
+			_tableZenkakuToHankaku['ãƒ‘'] = "ï¾Šï¾Ÿ";
+			_tableZenkakuToHankaku['ãƒ”'] = "ï¾‹ï¾Ÿ";
+			_tableZenkakuToHankaku['ãƒ—'] = "ï¾Œï¾Ÿ";
+			_tableZenkakuToHankaku['ãƒš'] = "ï¾ï¾Ÿ";
+			_tableZenkakuToHankaku['ãƒ'] = "ï¾ï¾Ÿ";
 			
 			_tableHankakuToZenkaku = new Char[] {
-				'B', 'u', 'v', 'A', 'E', 'ƒ’',
-				'ƒ@', 'ƒB', 'ƒD', 'ƒF', 'ƒH',
-				'ƒƒ', 'ƒ…', 'ƒ‡', 'ƒb', '[',
-				'ƒA', 'ƒC', 'ƒE', 'ƒG', 'ƒI',
-				'ƒJ', 'ƒL', 'ƒN', 'ƒP', 'ƒR',
-				'ƒT', 'ƒV', 'ƒX', 'ƒZ', 'ƒ\',
-				'ƒ^', 'ƒ`', 'ƒc', 'ƒe', 'ƒg',
-				'ƒi', 'ƒj', 'ƒk', 'ƒl', 'ƒm',
-				'ƒn', 'ƒq', 'ƒt', 'ƒw', 'ƒz',
-				'ƒ}', 'ƒ~', 'ƒ€', 'ƒ', 'ƒ‚',
-				'ƒ„', 'ƒ†', 'ƒˆ',
-				'ƒ‰', 'ƒŠ', 'ƒ‹', 'ƒŒ', 'ƒ',
-				'ƒ', 'ƒ“',
-				'J', 'K',
+				'ã€‚', 'ã€Œ', 'ã€', 'ã€', 'ãƒ»', 'ãƒ²',
+				'ã‚¡', 'ã‚£', 'ã‚¥', 'ã‚§', 'ã‚©',
+				'ãƒ£', 'ãƒ¥', 'ãƒ§', 'ãƒƒ', 'ãƒ¼',
+				'ã‚¢', 'ã‚¤', 'ã‚¦', 'ã‚¨', 'ã‚ª',
+				'ã‚«', 'ã‚­', 'ã‚¯', 'ã‚±', 'ã‚³',
+				'ã‚µ', 'ã‚·', 'ã‚¹', 'ã‚»', 'ã‚½',
+				'ã‚¿', 'ãƒ', 'ãƒ„', 'ãƒ†', 'ãƒˆ',
+				'ãƒŠ', 'ãƒ‹', 'ãƒŒ', 'ãƒ', 'ãƒ',
+				'ãƒ', 'ãƒ’', 'ãƒ•', 'ãƒ˜', 'ãƒ›',
+				'ãƒ', 'ãƒŸ', 'ãƒ ', 'ãƒ¡', 'ãƒ¢',
+				'ãƒ¤', 'ãƒ¦', 'ãƒ¨',
+				'ãƒ©', 'ãƒª', 'ãƒ«', 'ãƒ¬', 'ãƒ­',
+				'ãƒ¯', 'ãƒ³',
+				'ã‚›', 'ã‚œ',
 			};
 			_tableHankakuToZenkakuDakuten = new Char[,] {
 				{' ', ' ', ' ', ' ', ' '},
-				{'ƒK', 'ƒM', 'ƒO', 'ƒQ', 'ƒS'},
-				{'ƒU', 'ƒW', 'ƒY', 'ƒ[', 'ƒ]'},
-				{'ƒ_', 'ƒa', 'ƒd', 'ƒf', 'ƒh'},
+				{'ã‚¬', 'ã‚®', 'ã‚°', 'ã‚²', 'ã‚´'},
+				{'ã‚¶', 'ã‚¸', 'ã‚º', 'ã‚¼', 'ã‚¾'},
+				{'ãƒ€', 'ãƒ‚', 'ãƒ…', 'ãƒ‡', 'ãƒ‰'},
 				{' ', ' ', ' ', ' ', ' '},
-				{'ƒo', 'ƒr', 'ƒu', 'ƒx', 'ƒ{'},
+				{'ãƒ', 'ãƒ“', 'ãƒ–', 'ãƒ™', 'ãƒœ'},
 			};
 			_tableHankakuToZenkakuHanDakuten = new Char[] {
-				'ƒp', 'ƒs', 'ƒv', 'ƒy', 'ƒ|',
+				'ãƒ‘', 'ãƒ”', 'ãƒ—', 'ãƒš', 'ãƒ',
 			};
 		}
 		
@@ -140,19 +140,19 @@ namespace Misuzilla.Text.JapaneseStringUtilities
 			//Console.WriteLine("Convert In: {0}", str);
 			for (Int32 i = 0; i < str.Length; i++) {
 				Char c = str[i];
-				Boolean isNextDakuten = (str.Length > i+1 ? (str[i+1] == 'Ş') : false);
-				Boolean isNextHanDakuten = (str.Length > i+1 ? (str[i+1] == 'ß') : false);
+				Boolean isNextDakuten = (str.Length > i+1 ? (str[i+1] == 'ï¾') : false);
+				Boolean isNextHanDakuten = (str.Length > i+1 ? (str[i+1] == 'ï¾Ÿ') : false);
 				//Console.WriteLine("  - char: {0}", c);
 				//Console.WriteLine("  - isNextDakuten: {0}", isNextDakuten);
 				//Console.WriteLine("  - isNextHanDakuten: {0}", isNextHanDakuten);
 				
 				if (((narrowFlag & ConvertFlags.Katakana) != 0) && _tableZenkakuToHankaku.ContainsKey(c)) {
-					// ‘SŠpƒJƒi -> ”¼ŠpƒJƒi
+					// å…¨è§’ã‚«ãƒŠ -> åŠè§’ã‚«ãƒŠ
 					sb.Append(_tableZenkakuToHankaku[c]);
-				} else if (((wideFlag & ConvertFlags.Katakana) != 0) && (c >= '¡' && c <= 'ß')) {
-					// ”¼ŠpƒJƒi -> ‘SŠpƒJƒi
-					Int32 col = (c - '±') / 5; // ƒAƒJƒTƒ^ƒis
-					Int32 row = (c - '±') % 5; // ƒAƒCƒEƒGƒI
+				} else if (((wideFlag & ConvertFlags.Katakana) != 0) && (c >= 'ï½¡' && c <= 'ï¾Ÿ')) {
+					// åŠè§’ã‚«ãƒŠ -> å…¨è§’ã‚«ãƒŠ
+					Int32 col = (c - 'ï½±') / 5; // ã‚¢ã‚«ã‚µã‚¿ãƒŠè¡Œ
+					Int32 row = (c - 'ï½±') % 5; // ã‚¢ã‚¤ã‚¦ã‚¨ã‚ª
 					//Console.WriteLine("    - char: {0} at {1} - {2}", c, col, row);
 					
 					if (isNextDakuten) {
@@ -163,8 +163,8 @@ namespace Misuzilla.Text.JapaneseStringUtilities
 							i++;
 							break;
 						default:
-							if (c == '³') {
-								sb.Append('ƒ”');
+							if (c == 'ï½³') {
+								sb.Append('ãƒ´');
 								i++;
 							}
 							break;
@@ -173,26 +173,26 @@ namespace Misuzilla.Text.JapaneseStringUtilities
 						sb.Append(_tableHankakuToZenkakuHanDakuten[row]);
 						i++;
 					} else {
-						//Console.WriteLine("      -> {0}", _tableHankakuToZenkaku[(c - '¡')]);
-						sb.Append(_tableHankakuToZenkaku[(c - '¡')]);
+						//Console.WriteLine("      -> {0}", _tableHankakuToZenkaku[(c - 'ï½¡')]);
+						sb.Append(_tableHankakuToZenkaku[(c - 'ï½¡')]);
 					}
 				} else if (((wideFlag & ConvertFlags.Alphabet) != 0) && (c >= '!' && c <= '~' && (c < '0' || c > '9'))) {
-					// ”¼ŠpƒAƒ‹ƒtƒ@ƒxƒbƒg -> ‘SŠpƒAƒ‹ƒtƒ@ƒxƒbƒg
-					sb.Append((Char)('I' + (c - '!')));
-				} else if (((narrowFlag & ConvertFlags.Alphabet) != 0) && (c >= 'I' && c <= '`' && (c < '‚O' || c > '‚X'))) {
-					// ‘SŠpƒAƒ‹ƒtƒ@ƒxƒbƒg -> ”¼ŠpƒAƒ‹ƒtƒ@ƒxƒbƒg
-					sb.Append((Char)('!' + (c - 'I')));
+					// åŠè§’ã‚¢ãƒ«ãƒ•ã‚¡ãƒ™ãƒƒãƒˆ -> å…¨è§’ã‚¢ãƒ«ãƒ•ã‚¡ãƒ™ãƒƒãƒˆ
+					sb.Append((Char)('ï¼' + (c - '!')));
+				} else if (((narrowFlag & ConvertFlags.Alphabet) != 0) && (c >= 'ï¼' && c <= 'ï½' && (c < 'ï¼' || c > 'ï¼™'))) {
+					// å…¨è§’ã‚¢ãƒ«ãƒ•ã‚¡ãƒ™ãƒƒãƒˆ -> åŠè§’ã‚¢ãƒ«ãƒ•ã‚¡ãƒ™ãƒƒãƒˆ
+					sb.Append((Char)('!' + (c - 'ï¼')));
 				} else if (((wideFlag & ConvertFlags.Numeric) != 0) && (c >= '0' && c <= '9')) {
-					// ”¼Šp”š -> ‘SŠp”š
-					sb.Append((Char)('‚O' + (c - '0')));
-				} else if (((narrowFlag & ConvertFlags.Numeric) != 0) && (c >= '‚O' && c <= '‚X')) {
-					// ‘SŠp”š -> ”¼Šp”š
-					sb.Append((Char)('0' + (c - '‚O')));
+					// åŠè§’æ•°å­— -> å…¨è§’æ•°å­—
+					sb.Append((Char)('ï¼' + (c - '0')));
+				} else if (((narrowFlag & ConvertFlags.Numeric) != 0) && (c >= 'ï¼' && c <= 'ï¼™')) {
+					// å…¨è§’æ•°å­— -> åŠè§’æ•°å­—
+					sb.Append((Char)('0' + (c - 'ï¼')));
 				} else if (((wideFlag & ConvertFlags.Space) != 0) && (c == ' ')) {
-					// ”¼Šp‹ó”’ -> ‘SŠp‹ó”’
-					sb.Append('@');
-				} else if (((narrowFlag & ConvertFlags.Space) != 0) && (c == '@')) {
-					// ‘SŠp‹ó”’ -> ”¼Šp‹ó”’
+					// åŠè§’ç©ºç™½ -> å…¨è§’ç©ºç™½
+					sb.Append('ã€€');
+				} else if (((narrowFlag & ConvertFlags.Space) != 0) && (c == 'ã€€')) {
+					// å…¨è§’ç©ºç™½ -> åŠè§’ç©ºç™½
 					sb.Append(' ');
 				} else {
 					sb.Append(c);
