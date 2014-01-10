@@ -6,12 +6,13 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Runtime.Serialization;
-using System.ServiceModel.Dispatcher;
 using System.Text;
 using System.Threading;
+using Misuzilla.Applications.TwitterIrcGateway;
 using Misuzilla.Applications.TwitterIrcGateway.AddIns.Console;
-using System.Runtime.Serialization.Json;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Converters;
 
 namespace Misuzilla.Applications.TwitterIrcGateway.AddIns.UserStream
 {
@@ -31,24 +32,24 @@ namespace Misuzilla.Applications.TwitterIrcGateway.AddIns.UserStream
             ServicePointManager.DefaultConnectionLimit = 1000;
             ServicePointManager.MaxServicePoints = 0;
 
-            Session.AddInsLoadCompleted += (sender, e) =>
-                                               {
-                                                   Session.AddInManager.GetAddIn<ConsoleAddIn>().RegisterContext<UserStreamContext>();
-                                                   Config = Session.AddInManager.GetConfig<UserStreamConfig>();
-                                                   Setup(Config.Enabled);
-                                               };
+            CurrentSession.AddInsLoadCompleted += (sender, e) =>
+            {
+                CurrentSession.AddInManager.GetAddIn<ConsoleAddIn>().RegisterContext<UserStreamContext>();
+                Config = CurrentSession.AddInManager.GetConfig<UserStreamConfig>();
+                Setup(Config.Enabled);
+            };
         }
         public override void Uninitialize()
         {
             Setup(false);
         }
-    
+
         internal void Setup(Boolean isStart)
         {
             if (_workerThread != null)
             {
                 _isRunning = false;
-                
+
                 if (_webRequest != null)
                 {
                     _webRequest.Abort();
@@ -63,107 +64,161 @@ namespace Misuzilla.Applications.TwitterIrcGateway.AddIns.UserStream
             if (isStart)
             {
                 _friendIds = new HashSet<Int64>();
-                _workerThread = new Thread(WorkerProcedure);
+                _workerThread = new Thread(WorkerProcedureEntry);
                 _workerThread.Start();
                 _isRunning = true;
             }
         }
-    
-        private void WorkerProcedure()
+
+        private void WorkerProcedureEntry()
         {
-            try
+            while (true)
             {
-                DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(_Status));
-                DataContractJsonSerializer serializer2 = new DataContractJsonSerializer(typeof(_FriendsObject));
-                DataContractJsonSerializer serializer3 = new DataContractJsonSerializer(typeof(_EventObject));
-
-                //_webRequest = WebRequest.Create("http://betastream.twitter.com/2b/user.json") as HttpWebRequest;
-                //_webRequest.Credentials = new NetworkCredential(CurrentSession.Connections[0].UserInfo.UserName,
-                //                                                CurrentSession.Connections[0].UserInfo.Password);
-                //_webRequest.PreAuthenticate = true;
-                 _webRequest = CurrentSession.TwitterService.OAuthClient.CreateRequest(
-                                                                        new Uri("https://userstream.twitter.com/1.1/user.json"),
-                                                                        TwitterOAuth.HttpMethod.GET);
-                 _webRequest.ServicePoint.ConnectionLimit = 1000;
-                 _webRequest.Timeout = 30 * 1000;
-                using (var response = _webRequest.GetResponse())
-                using (var stream = response.GetResponseStream())
+                try
                 {
-                    StreamReader sr = new StreamReader(stream, Encoding.UTF8);
-                    Boolean isFirstLine = true;
-                    while (!sr.EndOfStream && _isRunning)
-                    {
-                        var line = sr.ReadLine();
-                        if (String.IsNullOrEmpty(line))
-                            continue;
+                    WorkerProcedure();
+                }
+                catch (ThreadAbortException)
+                {
+                    _isRunning = false;
+                    // rethrow
+                }
+                catch (Exception e)
+                {
+                    CurrentSession.SendServerErrorMessage("UserStream: " + e.Message);
+                }
 
-                        _Status statusJson = null;
-                        try
-                        {
-                            // XXX: これはてぬき
-                            if (isFirstLine)
-                            {
-                                isFirstLine = false;
-                                _FriendsObject streamObject =
-                                    serializer2.ReadObject(new MemoryStream(Encoding.UTF8.GetBytes(line))) as
-                                    _FriendsObject;
-                                if (streamObject != null && streamObject.friends != null)
-                                {
-                                    _friendIds.UnionWith(streamObject.friends);
-                                }
-                            }
-                            else if (line.IndexOf("\"event\":") > -1)
-                            {
-                                _EventObject eventObj =
-                                    serializer3.ReadObject(new MemoryStream(Encoding.UTF8.GetBytes(line))) as _EventObject;
+                if (!Config.AutoRestart)
+                    break;
 
-                                if (eventObj.Event == "follow" && eventObj.source.id == CurrentSession.TwitterUser.Id)
-                                    _friendIds.Add(eventObj.target.id);
-                            }
-                            else
-                            {
-                                statusJson =
-                                    serializer.ReadObject(new MemoryStream(Encoding.UTF8.GetBytes(line))) as _Status;
-                            }
+                // 適当に 60 秒待機
+                Thread.Sleep(60 * 1000);
+            }
 
-                        }
-                        catch
-                        {
-                            //CurrentSession.SendServerErrorMessage("UserStream(Deserialize): " + line);
-                            continue;
-                        }
+            _isRunning = false;
+        }
 
-                        if (statusJson == null || statusJson.id == 0)
-                            continue;
+        private IEnumerable<JObject> EnumerateJObject(String url)
+        {
+            _webRequest = CurrentSession.TwitterService.OAuthClient.CreateRequest(
+                new Uri(url),
+                TwitterOAuth.HttpMethod.GET);
+            _webRequest.ServicePoint.ConnectionLimit = 1000;
+            _webRequest.Timeout = 30 * 1000;
 
-                        if (Config.IsThroughMyPostFromUserStream && (statusJson.user.id == CurrentSession.TwitterUser.Id))
-                            continue;
-
-                        Status status = statusJson.ToStatus();
-                        Boolean friendCheckRequired = false;
-                        if (Config.AllAtMode ||
-                            (statusJson.in_reply_to_user_id.HasValue == false) ||
-                            (statusJson.in_reply_to_user_id.HasValue && _friendIds.Contains(statusJson.in_reply_to_user_id.Value)))
-                        {
-                            CurrentSession.TwitterService.ProcessStatus(status,
-                                                                        (s) =>
-                                                                        CurrentSession.ProcessTimelineStatus(s,
-                                                                                                             ref friendCheckRequired,
-                                                                                                             false,
-                                                                                                             false));
-                        }
-                    }
+            using (var response = _webRequest.GetResponse())
+            using (var stream = response.GetResponseStream())
+            {
+                StreamReader sr = new StreamReader(stream, Encoding.UTF8);
+                while (!sr.EndOfStream && _isRunning)
+                {
+                    var line = sr.ReadLine();
+                    if (!String.IsNullOrEmpty(line))
+                        yield return JsonConvert.DeserializeObject<JObject>(line);
                 }
             }
-            catch (ThreadAbortException)
-            {}
-            catch (Exception e)
+        }
+
+        private void WorkerProcedure()
+        {
+            var options = new Dictionary<String, String>();
+
+            if (Config.AllAtMode)
+                options["replies"] = "all";
+
+            String optionsString = String.Join("&", options.Select(kv => String.Format("{0}={1}", kv.Key, kv.Value)).ToArray());
+
+            String url = "https://userstream.twitter.com/1.1/user.json";
+            if (!String.IsNullOrEmpty(optionsString))
+                url += "?" + optionsString;
+
+            var stream = EnumerateJObject(url);
+
+            // First time
+            var friendsObject = stream.Take(1).First().ToObject<FriendsObject>();
+            _friendIds.UnionWith(friendsObject.Friends);
+
+            foreach (var jsonObject in stream)
             {
-                CurrentSession.SendServerErrorMessage("UserStream: " + e.ToString());
+                if (jsonObject["user"] != null)
+                {
+                    var statusObject = jsonObject.ToObject<Status>();
+                    OnTweet(statusObject);
+                }
+                else if (jsonObject["event"] != null)
+                {
+                    var eventObject = jsonObject.ToObject<EventObject>();
+                    OnEvent(eventObject);
+                }
             }
-            finally
+        }
+
+        private void OnTweet(Status status)
+        {
+            if (Config.IsThroughMyPostFromUserStream && status.Id == CurrentSession.TwitterUser.Id)
+                return;
+
+            Boolean friendCheckRequired = false;
+            CurrentSession.TwitterService.ProcessStatus(status,
+                    (s) => CurrentSession.ProcessTimelineStatus(s, ref friendCheckRequired, false, false));
+        }
+
+        private void OnEvent(EventObject eventObject)
+        {
+            // CurrentSession.SendGatewayServerMessage(String.Format("OnEvent: {0}", eventObject.Event));
+
+            switch (eventObject.Event)
             {
-                _isRunning = false;
+                case "favorite":
+                    OnFavoriteEvent(eventObject);
+                    break;
+
+                case "follow":
+                    OnFollowEvent(eventObject);
+                    break;
+            }
+        }
+
+        private void OnFavoriteEvent(EventObject eventObject)
+        {
+            var source = eventObject.Source.ToObject<User>();
+            var target = eventObject.Target.ToObject<User>();
+            var status = eventObject.TargetObject.ToObject<Status>();
+
+            if (target.Id == CurrentSession.TwitterUser.Id)
+            {
+                if (Config.ShowEvent)
+                {
+                    var prefix = SetColor(String.Format("★ Fav @{0}:", target.ScreenName), Config.FavoriteColor);
+                    status.User = source;
+                    status.Text = String.Format("{0} {1}", prefix, status.Text);
+
+                    Boolean friendCheckRequired = false;
+                    CurrentSession.ProcessTimelineStatus(status, ref friendCheckRequired, true, false);
+                }
+            }
+        }
+
+        private void OnFollowEvent(EventObject eventObject)
+        {
+            var source = eventObject.Source.ToObject<User>();
+            var target = eventObject.Target.ToObject<User>();
+
+            if (target.Id == CurrentSession.TwitterUser.Id)
+            {
+                _friendIds.Add(source.Id);
+            }
+        }
+
+        private String SetColor(String s, Int32? color)
+        {
+            if (color.HasValue)
+            {
+                return String.Format("\x03{0}{1}\x03", color.Value, s);
+            }
+            else
+            {
+                return s;
             }
         }
     }
@@ -188,6 +243,7 @@ namespace Misuzilla.Applications.TwitterIrcGateway.AddIns.UserStream
             CurrentSession.AddInManager.GetAddIn<UserStreamAddIn>().Setup(config.Enabled);
             Console.NotifyMessage("User Stream を有効にしました。");
         }
+
         [Description("User Stream を無効にします")]
         public void Disable()
         {
@@ -203,7 +259,7 @@ namespace Misuzilla.Applications.TwitterIrcGateway.AddIns.UserStream
             CurrentSession.AddInManager.SaveConfig(config);
         }
     }
-    
+
     public class UserStreamConfig : IConfiguration
     {
         [Browsable(false)]
@@ -215,103 +271,40 @@ namespace Misuzilla.Applications.TwitterIrcGateway.AddIns.UserStream
         [Description("自分のポストをUser Streamから拾わないようにするかどうかを指定します。")]
         public Boolean IsThroughMyPostFromUserStream { get; set; }
 
-//        [Description("切断された際に自動的に再接続を試みるかどうかを指定します。")]
-//        public Boolean AutoRestart { get; set; }
+        [Description("切断された際に自動的に再接続を試みるかどうかを指定します。")]
+        public Boolean AutoRestart { get; set; }
+
+        [Description("イベントを表示するかどうかを指定します。")]
+        public Boolean ShowEvent { get; set; }
+
+        [Description("お気に入りイベントの文字色を指定します。")]
+        public Int32? FavoriteColor { get; set; }
     }
 
-    [DataContract]
-    class _Status
+    class FriendsObject
     {
-        [DataMember]
-        public Int64 id { get; set; }
-        [DataMember]
-        public String text { get; set; }
-        [DataMember]
-        public String created_at { get; set; }
-        [DataMember]
-        public String source { get; set; }
-        [DataMember]
-        public _User user { get; set; }
-
-        public DateTime CreatedAt { get { return DateTime.ParseExact(created_at, "ddd MMM dd HH:mm:ss zz00 yyyy", CultureInfo.InvariantCulture.DateTimeFormat); } }
-
-        [DataMember]
-        public Int64? in_reply_to { get; set; }
-
-        [DataMember]
-        public Int64? in_reply_to_user_id { get; set; }
-
-        [DataMember]
-        public _Status retweeted_status { get; set; }
-
-        public Status ToStatus()
-        {
-            return new Status()
-            {
-                CreatedAt = this.CreatedAt,
-                Text = this.text,
-                Source = this.source,
-                Id = this.id,
-                InReplyToUserId =
-                    this.in_reply_to_user_id.HasValue
-                        ? this.in_reply_to_user_id.Value.ToString()
-                        : null,
-                InReplyToStatusId =
-                    this.in_reply_to.HasValue
-                        ? this.in_reply_to.Value.ToString()
-                        : null,
-                RetweetedStatus = (this.retweeted_status == null) ? null : this.retweeted_status.ToStatus(),
-                User = this.user.ToUser()
-            };
-        }
+        [JsonProperty("friends")]
+        public Int64[] Friends { get; set; }
     }
 
-    [DataContract]
-    class _EventTarget
+    class EventTarget
     {
-        [DataMember]
-        public Int64 id { get; set; }
+        [JsonProperty("id")]
+        public Int64 Id { get; set; }
     }
 
-    [DataContract]
-    class _User
+    class EventObject
     {
-        [DataMember]
-        public Int64 id { get; set; }
-        [DataMember]
-        public String screen_name { get; set; }
-        [DataMember]
-        public String profile_image_url { get; set; }
-        [DataMember(Name = "protected")]
-        public Boolean Protected { get; set; }
-
-        public User ToUser()
-        {
-            return new User()
-                       {
-                           Id = (Int64)this.id,
-                           Protected = this.Protected,
-                           ProfileImageUrl = this.profile_image_url,
-                           ScreenName = this.screen_name
-                       };
-        }
-    }
-
-    [DataContract]
-    class _FriendsObject
-    {
-        [DataMember]
-        public List<Int64> friends { get; set; }
-    }
-
-    [DataContract]
-    class _EventObject
-    {
-        [DataMember(Name = "event")]
+        [JsonProperty("event")]
         public String Event { get; set; }
-        [DataMember]
-        public _EventTarget target { get; set; }
-        [DataMember]
-        public _EventTarget source { get; set; }
+
+        [JsonProperty("target")]
+        public JObject Target { get; set; }
+
+        [JsonProperty("source")]
+        public JObject Source { get; set; }
+
+        [JsonProperty("target_object")]
+        public JObject TargetObject { get; set; }
     }
 }
