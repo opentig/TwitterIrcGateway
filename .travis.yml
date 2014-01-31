@@ -1,0 +1,25 @@
+language: objective-c
+env:
+  global:
+    - EnableNuGetPackageRestore=true
+    - GIT_COMMITTER_NAME=shunirr
+    - GIT_COMMITTER_EMAIL=m@s5r.jp
+    - GIT_AUTHOR_NAME=shunirr
+    - GIT_AUTHOR_EMAIL=m@s5r.jp
+    - secure: "d6vG9kokbDMPNcctZUn14m7qG04sG4I0OPmuJIEKirRh2548kamCDLFlXrU34IU+cP/r7p+J2uJjD4XA4rDulOld3EldDJarHlRO5X81oVr+4PXJPJst/+d3aC1C8GVrAxBgwAoBVQL+M0W3b3epZyJwq93bdRiHB/C7nWYQCRc="
+  matrix:
+    - MONO_VER="3.2.4"
+before_install:
+  - wget "http://download.mono-project.com/archive/${MONO_VER}/macos-10-x86/MonoFramework-MDK-${MONO_VER}.macos10.xamarin.x86.pkg"
+  - sudo installer -pkg "MonoFramework-MDK-${MONO_VER}.macos10.xamarin.x86.pkg" -target /
+  - mkdir Bin
+  - cd Bin
+  - git clone https://github.com/opentig/TwitterIrcGatewayBinary.git Release
+  - cd Release
+  - git checkout $TRAVIS_BRANCH
+  - cd ../../
+script:
+  - xbuild /p:Configuration=Release
+after_success:
+  - export TIG_VERSION=`mono ./Bin/Release/TwitterIrcGatewayCLI.exe --help | head -1 | cut -d" " -f3`
+  - "cd ./Bin/Release && git add . && git commit -m \"TwitterIrcGateway $TIG_VERSION\" && git push -f --quiet https://$GH_TOKEN@github.com/opentig/TwitterIrcGatewayBinary.git $TRAVIS_BRANCH"
