@@ -1,3 +1,3 @@
 TwitterIrcGateway
 =================
-[![Build status](https://ci.appveyor.com/api/projects/status?id=exfn3fu8bbswasmh)](https://ci.appveyor.com/project/opentig-twitterircgateway)
+[![Build status](https://ci.appveyor.com/api/projects/status/9le3sah8d34rtv7s)](https://ci.appveyor.com/project/OpenTIG/twitterircgateway)
