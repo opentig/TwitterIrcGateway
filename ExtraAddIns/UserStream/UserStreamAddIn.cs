@@ -132,23 +132,27 @@ namespace Misuzilla.Applications.TwitterIrcGateway.AddIns.UserStream
             if (!String.IsNullOrEmpty(optionsString))
                 url += "?" + optionsString;
 
-            var stream = EnumerateJObject(url);
-
-            // First time
-            var friendsObject = stream.Take(1).First().ToObject<FriendsObject>();
-            _friendIds.UnionWith(friendsObject.Friends);
-
-            foreach (var jsonObject in stream)
+            var isFirst = true;
+            foreach (var jsonObject in EnumerateJObject(url))
             {
-                if (jsonObject["user"] != null)
+                if (isFirst)
                 {
-                    var statusObject = jsonObject.ToObject<Status>();
-                    OnTweet(statusObject);
+                    isFirst = false;
+                    var friendsObject = jsonObject.ToObject<FriendsObject>();
+                    _friendIds.UnionWith(friendsObject.Friends);
                 }
-                else if (jsonObject["event"] != null)
+                else
                 {
-                    var eventObject = jsonObject.ToObject<EventObject>();
-                    OnEvent(eventObject);
+                    if (jsonObject["user"] != null)
+                    {
+                        var statusObject = jsonObject.ToObject<Status>();
+                        OnTweet(statusObject);
+                    }
+                    else if (jsonObject["event"] != null)
+                    {
+                        var eventObject = jsonObject.ToObject<EventObject>();
+                        OnEvent(eventObject);
+                    }
                 }
             }
         }
