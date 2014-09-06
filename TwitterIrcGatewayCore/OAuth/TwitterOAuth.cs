@@ -269,10 +269,6 @@ namespace Misuzilla.Applications.TwitterIrcGateway
                 {
                     setRateLimit(webE.Response);
                 }
-                else
-                {
-                    throw;
-                }
                 throw;
             }
 
@@ -383,6 +379,7 @@ namespace Misuzilla.Applications.TwitterIrcGateway
         {
             HttpWebRequest webRequest = WebRequest.Create(uri) as HttpWebRequest;
             webRequest.ServicePoint.Expect100Continue = false;
+            webRequest.KeepAlive = false;
             webRequest.Timeout = 30 * 1000;
             webRequest.Method = "GET";
             if (EnableCompression)
@@ -395,6 +392,7 @@ namespace Misuzilla.Applications.TwitterIrcGateway
             HttpWebRequest webRequest = WebRequest.Create(uri) as HttpWebRequest;
             webRequest.ServicePoint.Expect100Continue = false;
             webRequest.Timeout = 30 * 1000;
+            webRequest.KeepAlive = false;
             webRequest.Method = "POST";
             webRequest.ContentType = "application/x-www-form-urlencoded";
             webRequest.Headers["Authorization"] = "OAuth realm=\"\", " +
