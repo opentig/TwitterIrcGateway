@@ -265,7 +265,14 @@ namespace Misuzilla.Applications.TwitterIrcGateway
             }
             catch (WebException webE)
             {
-                setRateLimit(webE.Response);
+                if (webE.Response != null)
+                {
+                    setRateLimit(webE.Response);
+                }
+                else
+                {
+                    throw;
+                }
                 throw;
             }
 
