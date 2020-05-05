@@ -60,8 +60,8 @@ namespace Misuzilla.Applications.TwitterIrcGateway
             SessionProxy = new EventManagedProxy<Session>(session);
             ServerProxy = new EventManagedProxy<Server>(server);
 
-            _server = ServerProxy.GetTransparentProxy() as Server;
-            _session = SessionProxy.GetTransparentProxy() as Session;
+            _server = (Server)ServerProxy.GetTransparentProxy();
+            _session = (Session)SessionProxy.GetTransparentProxy();
         }
         
         static AddInManager()
