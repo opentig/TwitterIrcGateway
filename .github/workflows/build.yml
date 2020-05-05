@@ -20,6 +20,7 @@ jobs:
         path: bin/Release
 
   release:
+    needs: [build]
 #    if: github.ref == 'heads/refs/release'
     runs-on: ubuntu-latest
     steps:
