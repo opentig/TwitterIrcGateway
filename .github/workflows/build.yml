@@ -24,7 +24,10 @@ jobs:
     if: github.ref == 'refs/heads/release'
     runs-on: ubuntu-latest
     steps:
-      - run: echo "::set-output name=TIG_RELEASE_VERSION::$(date +'%Y%m%d.%H%M%S')"
+      - name: Set release version
+        run: |
+          echo "::set-env name=TIG_RELEASE_VERSION::$(date +'%Y%m%d.%H%M%S')"
+          echo TIG_RELEASE_VERSION=$TIG_RELEASE_VERSION
       - uses: actions/download-artifact@v2
         with:
           name: TwitterIrcGateway
