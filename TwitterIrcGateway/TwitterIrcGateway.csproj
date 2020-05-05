@@ -47,17 +47,17 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Bin\Debug\</OutputPath>
+    <OutputPath>..\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Bin\Debug\TwitterIrcGateway.XML</DocumentationFile>
+    <DocumentationFile>..\bin\Debug\TwitterIrcGateway.XML</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Bin\Release\</OutputPath>
+    <OutputPath>..\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -68,7 +68,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\bin\x86\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DocumentationFile>..\Bin\Debug\TwitterIrcGateway.XML</DocumentationFile>
+    <DocumentationFile>..\bin\Debug\TwitterIrcGateway.XML</DocumentationFile>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -87,7 +87,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DocumentationFile>..\Bin\Debug\TwitterIrcGateway.XML</DocumentationFile>
+    <DocumentationFile>..\bin\Debug\TwitterIrcGateway.XML</DocumentationFile>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -105,7 +105,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\bin\Hosting Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DocumentationFile>..\Bin\Debug\TwitterIrcGateway.XML</DocumentationFile>
+    <DocumentationFile>..\bin\Debug\TwitterIrcGateway.XML</DocumentationFile>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -115,7 +115,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\bin\x86\Hosting Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DocumentationFile>..\Bin\Debug\TwitterIrcGateway.XML</DocumentationFile>
+    <DocumentationFile>..\bin\Debug\TwitterIrcGateway.XML</DocumentationFile>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -125,7 +125,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Hosting Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DocumentationFile>..\Bin\Debug\TwitterIrcGateway.XML</DocumentationFile>
+    <DocumentationFile>..\bin\Debug\TwitterIrcGateway.XML</DocumentationFile>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
